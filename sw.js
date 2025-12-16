@@ -1,9 +1,10 @@
-const CACHE_NAME = 'daily-manna-v3';
+const CACHE_NAME = 'daily-manna-v4';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
-  './icon-512.png',
+  // Removed icon-512.png from strict cache list. 
+  // If the user hasn't uploaded the image yet, we don't want the whole Service Worker to fail.
   'https://cdn.tailwindcss.com'
 ];
 
@@ -13,7 +14,6 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        // We use addAll for critical assets. If one fails, install fails.
         return cache.addAll(urlsToCache);
       })
       .then(() => self.skipWaiting())
@@ -52,8 +52,7 @@ self.addEventListener('fetch', (event) => {
 
             caches.open(CACHE_NAME)
               .then((cache) => {
-                // Don't cache the API calls or external dynamic content blindly if not needed
-                // But for CDN assets like lucide icons or tailwind, it helps.
+                // Cache successful responses for next time
                 if (event.request.url.startsWith('http')) {
                     cache.put(event.request, responseToCache);
                 }
