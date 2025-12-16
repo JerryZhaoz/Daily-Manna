@@ -143,7 +143,7 @@ const App: React.FC = () => {
                         onClick={handleStartMeditation}
                         className={`${THEME_COLORS.button} ${THEME_COLORS.buttonText} px-10 py-4 rounded-full text-lg font-semibold shadow-md hover:shadow-lg transform transition hover:-translate-y-1`}
                     >
-                        开始默想 (Meditate)
+                        Start Meditation
                     </button>
                 </div>
             )}
@@ -155,7 +155,7 @@ const App: React.FC = () => {
             {appState === AppState.COMPLETED && (
                 <div className="animate-fade-in">
                     <div className="text-center mb-8">
-                        <h3 className="text-2xl font-serif text-stone-800 mb-2">已完成打卡</h3>
+                        <h3 className="text-2xl font-serif text-stone-800 mb-2">Devotion Completed</h3>
                         <p className="text-stone-500">Good job! See you tomorrow.</p>
                     </div>
                     <ProgressDashboard progress={progress} />
@@ -164,7 +164,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* PWA Install Button (Floating or Integrated) */}
+      {/* PWA Install Button */}
       <InstallPwa />
 
       <footer className="text-center py-6 text-stone-400 text-xs">

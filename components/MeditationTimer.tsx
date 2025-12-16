@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { THEME_COLORS } from '../constants';
-import { Play, Square, CheckCircle2, Clock } from 'lucide-react';
+import { Play, Square, CheckCircle2 } from 'lucide-react';
 
 interface MeditationTimerProps {
   onComplete: () => void;
@@ -58,9 +58,9 @@ export const MeditationTimer: React.FC<MeditationTimerProps> = ({ onComplete }) 
           className={`${THEME_COLORS.button} ${THEME_COLORS.buttonText} px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform transition hover:-translate-y-1 flex items-center gap-2`}
         >
           <CheckCircle2 size={24} />
-          今日已完成 (Check-in)
+          Complete Check-in
         </button>
-        <p className="mt-4 text-stone-500 text-sm">默想结束，愿神赐福你的一天。</p>
+        <p className="mt-4 text-stone-500 text-sm">Meditation complete. May God bless your day.</p>
       </div>
     );
   }
@@ -132,17 +132,17 @@ export const MeditationTimer: React.FC<MeditationTimerProps> = ({ onComplete }) 
         >
           {isActive ? (
             <>
-              <Square size={18} fill="currentColor" /> 暂停 (Pause)
+              <Square size={18} fill="currentColor" /> Pause
             </>
           ) : (
             <>
-              <Play size={18} fill="currentColor" /> 开始默想 (Start)
+              <Play size={18} fill="currentColor" /> Start
             </>
           )}
         </button>
         
         <p className="mt-4 text-xs text-stone-400 text-center max-w-xs">
-           花 {selectedMinutes} 分钟安静下来，反复思想刚才的经文。
+           Spend {selectedMinutes} minutes reflecting on the verse.
         </p>
       </div>
     </div>
