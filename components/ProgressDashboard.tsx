@@ -10,15 +10,17 @@ interface ProgressDashboardProps {
 export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ progress }) => {
   
   const handleShare = () => {
-    const text = `Daily Manna Streak: ${progress.streak} days 🔥\nTotal Check-ins: ${progress.totalCheckIns} ✅\n#DailyManna #SpiritualHabit`;
+    const shareData = {
+      title: 'Daily Manna Progress',
+      text: `My Daily Manna Streak: ${progress.streak} days 🔥\nTotal Check-ins: ${progress.totalCheckIns} ✅\n#DailyManna #SpiritualHabit`,
+      url: window.location.href
+    };
+
     if (navigator.share) {
-      navigator.share({
-        title: 'Daily Manna Progress',
-        text: text,
-      }).catch(console.error);
+      navigator.share(shareData).catch(console.error);
     } else {
-      navigator.clipboard.writeText(text);
-      alert('Stats copied to clipboard!');
+      navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+      alert('Stats and link copied to clipboard!');
     }
   };
 

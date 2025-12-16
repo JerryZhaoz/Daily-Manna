@@ -4,6 +4,7 @@ import { fetchDailyVerse } from './services/geminiService';
 import { VerseDisplay } from './components/VerseDisplay';
 import { MeditationTimer } from './components/MeditationTimer';
 import { ProgressDashboard } from './components/ProgressDashboard';
+import { InstallPwa } from './components/InstallPwa';
 import { THEME_COLORS } from './constants';
 import { Loader2 } from 'lucide-react';
 
@@ -21,7 +22,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const todayStr = new Date().toISOString().split('T')[0];
 
-    // 1. Load User Progress
+    // 1. Load User Progress (Local "Database")
+    // Data is stored in localStorage, which persists in the browser
     const storedProgress = localStorage.getItem(STORAGE_KEYS.PROGRESS);
     let currentProgress = storedProgress 
       ? JSON.parse(storedProgress) 
@@ -99,6 +101,7 @@ const App: React.FC = () => {
             history: newHistory
         };
 
+        // Update local database (localStorage)
         localStorage.setItem(STORAGE_KEYS.PROGRESS, JSON.stringify(newProgress));
         return newProgress;
     });
@@ -160,6 +163,9 @@ const App: React.FC = () => {
             )}
         </div>
       </main>
+
+      {/* PWA Install Button (Floating or Integrated) */}
+      <InstallPwa />
 
       <footer className="text-center py-6 text-stone-400 text-xs">
         <p>© {new Date().getFullYear()} Daily Manna. Habit over Knowledge.</p>
