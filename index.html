@@ -2,11 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Daily Manna</title>
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="./manifest.json" />
     <meta name="theme-color" content="#fafaf9" />
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2907/2907253.png" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="icon" href="./icon-512.png" />
+    <link rel="apple-touch-icon" href="./icon-512.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -37,6 +41,7 @@
     <style>
       body {
         background-color: #fafaf9; /* stone-50 */
+        overscroll-behavior-y: none; /* Prevent pull-to-refresh on mobile app */
       }
     </style>
   <script type="importmap">
@@ -57,9 +62,9 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('./sw.js')
             .then((registration) => {
-              console.log('ServiceWorker registration successful');
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
             }, (err) => {
               console.log('ServiceWorker registration failed: ', err);
             });
