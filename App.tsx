@@ -5,12 +5,16 @@ import { VerseDisplay } from './components/VerseDisplay';
 import { MeditationTimer } from './components/MeditationTimer';
 import { ProgressDashboard } from './components/ProgressDashboard';
 import { InstallPwa } from './components/InstallPwa';
+import { WelcomeAdModal } from './components/WelcomeAdModal';
+import { CompletionAdModal } from './components/CompletionAdModal';
+import { AdUnit } from './components/AdUnit';
 import { THEME_COLORS } from './constants';
 import { Loader2 } from 'lucide-react';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>(AppState.LOADING);
   const [dailyContent, setDailyContent] = useState<DailyContent | null>(null);
+  const [showCompletionAd, setShowCompletionAd] = useState(false);
   const [progress, setProgress] = useState<UserProgress>({
     lastCheckIn: null,
     streak: 0,
@@ -107,6 +111,9 @@ const App: React.FC = () => {
     });
 
     setAppState(AppState.COMPLETED);
+    
+    // Trigger the completion ad
+    setShowCompletionAd(true);
   };
 
   if (appState === AppState.LOADING || !dailyContent) {
@@ -119,6 +126,15 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen ${THEME_COLORS.bg} transition-colors duration-500`}>
+      {/* Welcome Ad Modal - Shows once per session */}
+      <WelcomeAdModal />
+
+      {/* Completion Ad Modal - Shows after checking in */}
+      <CompletionAdModal 
+        isOpen={showCompletionAd} 
+        onClose={() => setShowCompletionAd(false)} 
+      />
+
       <header className="pt-8 pb-4 text-center">
         <h1 className="text-lg font-serif tracking-widest text-stone-500 uppercase">Daily Manna</h1>
       </header>
@@ -162,6 +178,13 @@ const App: React.FC = () => {
                 </div>
             )}
         </div>
+
+        {/* Bottom Banner Ad */}
+        <div className="mt-12 mb-6 p-4 bg-stone-100 rounded-xl flex items-center justify-center min-h-[100px]">
+            {/* Replace '1234567890' with your specific BOTTOM AD UNIT ID */}
+            <AdUnit slotId="1234567890" />
+        </div>
+
       </main>
 
       {/* PWA Install Button */}

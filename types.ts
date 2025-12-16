@@ -24,3 +24,10 @@ export const STORAGE_KEYS = {
   PROGRESS: 'manna_user_progress',
   DAILY_CONTENT: 'manna_daily_content_cache'
 };
+
+// Add global type for AdSense
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
+}

@@ -4,7 +4,6 @@ const urlsToCache = [
   './index.html',
   './manifest.json',
   // Removed icon-512.png from strict cache list. 
-  // If the user hasn't uploaded the image yet, we don't want the whole Service Worker to fail.
   'https://cdn.tailwindcss.com'
 ];
 
@@ -22,6 +21,20 @@ self.addEventListener('install', (event) => {
 
 // Fetch event: Network first, fall back to cache for HTML; Cache first for assets
 self.addEventListener('fetch', (event) => {
+  const requestUrl = new URL(event.request.url);
+
+  // 1. IGNORE AD REQUESTS
+  // Do not cache anything related to Google Ads, Analytics, or DoubleClick
+  if (
+    requestUrl.hostname.includes('google') || 
+    requestUrl.hostname.includes('doubleclick') || 
+    requestUrl.hostname.includes('googlesyndication') ||
+    requestUrl.hostname.includes('google-analytics') ||
+    requestUrl.href.includes('adsbygoogle')
+  ) {
+    return; // Let the browser handle it directly (Network only)
+  }
+
   // Navigation requests (HTML) - Try network first to get fresh content, fallback to cache
   if (event.request.mode === 'navigate') {
     event.respondWith(
@@ -53,7 +66,8 @@ self.addEventListener('fetch', (event) => {
             caches.open(CACHE_NAME)
               .then((cache) => {
                 // Cache successful responses for next time
-                if (event.request.url.startsWith('http')) {
+                // Double check we aren't caching ads
+                if (event.request.url.startsWith('http') && !event.request.url.includes('google')) {
                     cache.put(event.request, responseToCache);
                 }
               });
