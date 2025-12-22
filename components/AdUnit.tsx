@@ -1,42 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface AdUnitProps {
   slotId: string;
   format?: 'auto' | 'fluid' | 'rectangle';
   layoutKey?: string; // For In-feed ads
-  className?: string;
   style?: React.CSSProperties;
+  className?: string;
 }
 
-export const AdUnit: React.FC<AdUnitProps> = ({ 
+const AdUnit: React.FC<AdUnitProps> = ({ 
   slotId, 
   format = 'auto', 
   layoutKey,
-  className = '',
-  style = { display: 'block' }
+  style = { display: 'block' },
+  className = ''
 }) => {
+  const adRef = useRef<HTMLModElement>(null);
+
   useEffect(() => {
     try {
-      if (window.adsbygoogle) {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      // Check if the ad has already been loaded in this specific container to prevent duplicates in strict mode
+      if (adRef.current && adRef.current.innerHTML === "") {
+         (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+         (window as any).adsbygoogle.push({});
       }
     } catch (e) {
-      console.error('AdSense error:', e);
+      console.error("AdSense error", e);
     }
   }, []);
 
   return (
     <div className={`ad-container w-full overflow-hidden ${className}`}>
-        {/* REPLACE 'ca-pub-XXXXXXXXXXXXXXXX' with your actual Publisher ID in client prop */}
-        <ins
-            className="adsbygoogle"
-            style={style}
-            data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-            data-ad-slot={slotId}
-            data-ad-format={format}
-            data-full-width-responsive="true"
-            {...(layoutKey ? { 'data-ad-layout-key': layoutKey } : {})}
-        />
+      <ins
+        ref={adRef}
+        className="adsbygoogle"
+        style={style}
+        data-ad-client="ca-pub-2498147373862127"
+        data-ad-slot={slotId}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+        {...(layoutKey && { "data-ad-layout-key": layoutKey })}
+      />
     </div>
   );
 };
+
+export default AdUnit;

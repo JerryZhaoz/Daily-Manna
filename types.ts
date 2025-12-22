@@ -1,33 +1,34 @@
-export interface DailyContent {
-  date: string;
-  scriptureText: string;
-  reference: string;
-  thought: string; // A single sentence for reflection
+export interface DevotionalContent {
+  principle: string;
+  reference: string; // e.g., "Proverbs 3:5"
+  reflectionQuestion: string;
+  letGoItem: string;
+  prayerFocus: string;
 }
 
-export interface UserProgress {
-  lastCheckIn: string | null; // YYYY-MM-DD
-  streak: number;
-  totalCheckIns: number;
-  history: string[]; // Array of YYYY-MM-DD
+export enum TimerState {
+  IDLE = 'IDLE',
+  RUNNING = 'RUNNING',
+  PAUSED = 'PAUSED',
+  COMPLETED = 'COMPLETED'
 }
 
-export enum AppState {
-  LOADING = 'LOADING',
-  IDLE = 'IDLE', // Viewing the verse
-  MEDITATING = 'MEDITATING',
-  COMPLETED = 'COMPLETED',
-  ERROR = 'ERROR'
+export interface AppSettings {
+  musicEnabled: boolean;
+  reminderEnabled: boolean;
+  reminderTime: string; // "07:00"
 }
 
-export const STORAGE_KEYS = {
-  PROGRESS: 'manna_user_progress',
-  DAILY_CONTENT: 'manna_daily_content_cache'
+export const FALLBACK_CONTENT: DevotionalContent = {
+  principle: "Trust in the LORD with all your heart and lean not on your own understanding.",
+  reference: "Proverbs 3:5",
+  reflectionQuestion: "Where am I currently relying on my own strength instead of seeking God's guidance?",
+  letGoItem: "The need to control outcomes.",
+  prayerFocus: "Peace and surrender regarding the future."
 };
 
-// Add global type for AdSense
-declare global {
-  interface Window {
-    adsbygoogle: any[];
-  }
-}
+export const DEFAULT_SETTINGS: AppSettings = {
+  musicEnabled: true,
+  reminderEnabled: false,
+  reminderTime: "07:00"
+};

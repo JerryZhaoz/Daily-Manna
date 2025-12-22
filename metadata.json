@@ -1,4 +1,5 @@
 {
-  "name": "Daily Manna - Spiritual Habit Tracker",
-  "description": "A minimalist Christian daily devotion app focused on habit formation. Features daily scripture generation, a guided meditation timer, and streak tracking."
+  "name": "Daily Grace - Christian Prayer & Reflection",
+  "description": "A daily devotional app with AI-generated spiritual principles, reflection questions, and a guided prayer timer.",
+  "requestFramePermissions": []
 }
